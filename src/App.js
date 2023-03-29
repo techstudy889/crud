@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{Component} from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+import Home from "./components/Home";
+import Header from "./components/Header";
+
+import EditProduct from "./components/EditProduct";
+import ShowProducts from "./components/ShowProducts";
+import Product from "./components/Product";
+import {route} from "./Router";
+import config from  "./config/config.json";
+export default class App extends Component{
+	
+	constructor(props){
+		super(props)
+	this.id=window.localStorage.getItem('hash').split('/')[1];
+	this.view ={
+		home:<Home/>,
+		createproduct:<Product/>,
+		showproduct:<ShowProducts/>,
+		["editproduct/"+this.id]:<EditProduct userId={this.id}/>
+	}
+	
+	}
+	componentDidMount(){
+		
+		console.log("this method is running from app.jsx")
+	}
+	renderView = () => {
+	return this.view[route];
+}
+render = () => {
+return(
+<React.Fragment>
+
+<Header/>
+{this.renderView()}
+
+</React.Fragment>
+)
 }
 
-export default App;
+}
